@@ -1,17 +1,17 @@
 from flask import request, jsonify
-from firebase_admin import credentials, firestore, initialize_app, auth
+# from firebase_admin import credentials, firestore, initialize_app, auth
 
 from models.user import User
 
 # app = Flask(__name__)
 
 # Autenticate Firebase
-cred = credentials.Certificate('./key.json')
-default_app = initialize_app(cred)
+# cred = credentials.Certificate('./key.json')
+# default_app = initialize_app(cred)
 
 # Initialize Firestore DB
-db = firestore.client()
-users_ref = db.collection('users')
+# db = firestore.client()
+# users_ref = db.collection('users')
 # dir(auth)
 
 
@@ -37,6 +37,7 @@ class User:
             return jsonify({"success": True}), 200
         except Exception as e:
             return f"An Error Occured: {e}"
+
 
     def read():
         """

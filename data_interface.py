@@ -1,58 +1,73 @@
 from flask import request, jsonify
+from app import db, login_manager
 # from firebase_admin import credentials, firestore, initialize_app, auth
 
 from models.user import User
 
-# app = Flask(__name__)
 
-# Autenticate Firebase
-# cred = credentials.Certificate('./key.json')
-# default_app = initialize_app(cred)
-
-# Initialize Firestore DB
-# db = firestore.client()
-# users_ref = db.collection('users')
-# dir(auth)
-
-
-class User:
+class UserActions:
 
     def __init__(self, testing=False):
         return
 
-    def create():
+    def register():
         """
-        create() : Create user with an email and password
-        Add document to Firestore collection with requested user
-        Ensure you pass a username, user-email, password as part of json body in post request
-        e.g. json={'name': 'Huzaifa', 'email': 'ahmadhuzaifa012@gmail.com', 'password':'PaSsword'}
+        adds the user to db
         """
         try:
-            # User(user=request.json.name, email=request.json.email)
-            name = request.json['name']
-            email = request.json['email']
-            # password = request.json['password']
-            user = auth.create_user(display_name=name, email=email, password=password)
-            users_ref.add({'name': name,'email': email})
-            return jsonify({"success": True}), 200
+            query_parameters = request.args
+            id = query_parameters.get('id')
+            name = query_parameters.get('name')
+            email = query_parameters.get('email')
+            role_id = query_parameters.get('role_id')
+            is_staff = query_parameters.get('is_staff')
+
+            user = User(id=id, 
+                        name=name, 
+                        email=email, 
+                        role_id=role_id, 
+                        is_staff=is_staff)
+
+            db.session.add(user)
+            db.session.commit()
+            return jsonify({"ok": True}), 200
+
         except Exception as e:
             return f"An Error Occured: {e}"
 
 
-    def read():
+    def login():
         """
-        read() : Fetches documents from Firestore collection as JSON
-        todo : Return document that matches query ID
-        all_todos : Return all documents
+        does this user exist? returns a yes/no
         """
         try:
-            # Check if ID was passed to URL query
-            user_id = request.args.get('uid')
-            if user_id:
-                todo = users_ref.document(user_id).get()
-                return jsonify(todo.to_dict()), 200
+            query_parameters = request.args
+            id = query_parameters.get('id')
+            name = query_parameters.get('name')
+            email = query_parameters.get('email')
+            role_id = query_parameters.get('role_id')
+            is_staff = query_parameters.get('is_staff')
+
+            if User.query.filter_by(id=id, 
+                                    name=name, 
+                                    email=email, 
+                                    role_id=role_id, 
+                                    is_staff=is_staff).all():
+                # return jsonify({"ok":True}), 200
+                return True
+
             else:
-                all_todos = [doc.to_dict() for doc in users_ref.stream()]
-                return jsonify(all_todos), 200
+                # REJECT YA
+                # return jsonify({"ok":False}), 200
+                return False
+
         except Exception as e:
             return f"An Error Occured: {e}"
+
+
+    def login_switch():
+        if login():
+            True
+            # do something
+        else: 
+            register()

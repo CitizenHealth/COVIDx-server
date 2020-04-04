@@ -22,8 +22,8 @@ def create_app(config_name):
     migrate = Migrate(app, db)
 
     @app.route("/")
-    def hello_world():
-        return "Hello World"
+    def homepage():
+        return "homepage"
 
     # @app.route('/create_user', methods=['POST'])
     # def create_user():

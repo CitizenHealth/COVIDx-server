@@ -8,6 +8,7 @@ import uuid
 class User(BaseModel):
     name: str
     email: str
+    role: int
     user_uuid: uuid.UUID
 
 

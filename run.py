@@ -2,7 +2,7 @@ from flask import Flask
 from firebase_admin import credentials, firestore, initialize_app, auth
 import os
 
-from crud import User
+from data_interface import User
 
 app = Flask(__name__)
 

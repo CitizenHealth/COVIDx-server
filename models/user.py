@@ -29,11 +29,11 @@ class User(UserMixin, db.Model):
 
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(50), primary_key=True, unique=True)
     email = db.Column(db.String(50), index=True, unique=True)
-    name = db.Column(db.String(50), index=True, unique=True)
+    name = db.Column(db.String(50), index=True)
     # password_hash = db.Column(db.String(128)) check if we still need this with oauth
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
@@ -49,7 +49,7 @@ class Role(db.Model):
     __tablename__="roles"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), index=True, unique=True)
+    name = db.Column(db.String(50), index=True)
     description = db.Column(db.String(50), index=True, unique=True)
 
     def __repr__(self):

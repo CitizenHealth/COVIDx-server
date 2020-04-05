@@ -19,13 +19,12 @@ class UserActions:
             id = query_parameters.get('id')
             name = query_parameters.get('name')
             email = query_parameters.get('email')
-            role_id = query_parameters.get('role_id')
+            # role_id = query_parameters.get('role_id')
             is_staff = query_parameters.get('is_staff')
 
             user = User(id=id, 
                         name=name, 
                         email=email, 
-                        role_id=role_id, 
                         is_staff=is_staff)
 
             db.session.add(user)
@@ -56,10 +55,10 @@ class UserActions:
                 # return jsonify({"ok":True}), 200
                 return True
 
-            else:
-                # REJECT YA
-                # return jsonify({"ok":False}), 200
-                return False
+            # else:
+            #     # REJECT YA
+            #     # return jsonify({"ok":False}), 200
+            #     return False
 
         except Exception as e:
             return f"An Error Occured: {e}"
@@ -67,7 +66,7 @@ class UserActions:
 
     def login_switch():
         if login():
-            True
+            return jsonify({"ok": True}), 200
             # do something
         else: 
             register()

@@ -10,11 +10,11 @@ def create_user():
 
 
 @auth.route('/login_user', methods=['GET'])
-def read_user():
+def login_user():
     return UserActions.login()
 
 
-@auth.route('/authenticate_user', methods=['GET', 'POST'])
+@auth.route('/auth_user', methods=['GET', 'POST'])
 def auth_user():
     return UserActions.login_switch()
 

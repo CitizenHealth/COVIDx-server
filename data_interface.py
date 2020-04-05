@@ -44,7 +44,7 @@ class UserActions:
             id = query_parameters.get('id')
             name = query_parameters.get('name')
             email = query_parameters.get('email')
-            role_id = query_parameters.get('role_id')
+            # role_id = query_parameters.get('role_id')
             is_staff = query_parameters.get('is_staff')
 
             if User.query.filter_by(id=id, 

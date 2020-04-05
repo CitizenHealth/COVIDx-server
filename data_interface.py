@@ -59,11 +59,3 @@ class UserActions:
 
         except Exception as e:
             return f"An Error Occured: {e}"
-
-
-    # def login_switch():
-    #     if login():
-    #         return jsonify({"ok": True}), 200
-    #         # do something
-    #     else: 
-    #         register()

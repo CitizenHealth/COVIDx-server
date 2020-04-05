@@ -25,7 +25,7 @@ class TestBase(TestCase):
 
         db.create_all()
 
-        test_user = User(id="1", name="john doe", email="jd21@gmail.com")
+        test_user = User(id="1", first_name="john", last_name="doe", email="jd21@gmail.com")
         db.session.add(test_user)
         # sys.stdout.write("Hello")
         db.session.commit()
@@ -50,7 +50,13 @@ class TestViews(TestBase):
         self.assertEqual(response.status_code, 200)
 
     def test_auth_create(self):
-        response = self.client.post(url_for("auth.create_user"), data=dict(id="2", name="jane doe", email="janed@gmail.com"))
+        response = self.client.post(url_for("auth.create_user"), 
+                                    data=dict(
+                                        id="2", 
+                                        first_name="jane", 
+                                        last_name="doe", 
+                                        email="janed@gmail.com")
+                                    )
         self.assertEqual(response.status_code, 200)
 
 

@@ -12,6 +12,3 @@ def create_user():
 @auth.route('/login_user', methods=['GET'])
 def login_user():
     return UserActions.login()
-
-
-# @auth.route("/logout")

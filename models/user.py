@@ -13,10 +13,9 @@ class User(UserMixin, db.Model):
 
     __tablename__ = "users"
 
-    id = db.Column(db.String(50), primary_key=True, unique=True)
+    user_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
     email = db.Column(db.String(50))
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
+    display_name = db.Column(db.String(50))
     birth = db.Column(db.Date)
     sex = db.Column(db.String(6), CheckConstraint("sex in ('male', 'female')"))
     zip_code = db.Column(db.String(10))
@@ -36,7 +35,7 @@ class Role(db.Model):
 
     __tablename__="roles"
 
-    id = db.Column(db.Integer, primary_key=True, unique=True)
+    role_id = db.Column(db.String(50), primary_key=True, unique=True)
     name = db.Column(db.String(50), index=True)
     description = db.Column(db.String(50), index=True)
 

@@ -15,24 +15,27 @@ class UserActions:
         adds the user to db
         """
         try:
-            query_parameters = request.args
-            id = query_parameters.get('id')
-            name = query_parameters.get('name')
-            email = query_parameters.get('email')
-            # role_id = query_parameters.get('role_id')
-            is_staff = query_parameters.get('is_staff')
+            req_data = request.get_json()
+            user_id=req_data['user_id']
+            display_name = req_data['display_name']
+            email = req_data['email']
+            # role_id = req_data['role_id']
 
-            user = User(id=id, 
-                        name=name, 
-                        email=email, 
-                        is_staff=is_staff)
+            user = User(user_id=user_id, 
+                        display_name=display_name, 
+                        email=email)
 
             db.session.add(user)
             db.session.commit()
-            return jsonify({"ok": True}), 200
+            return jsonify(ok=True), 200
 
         except Exception as e:
-            return f"An Error Occured: {e}"
+            db.session.rollback()
+            print(f"An Error Occured: {e}")
+            return jsonify(ok=False), 200
+
+        finally:
+            db.session.close()
 
 
     def login():
@@ -41,13 +44,13 @@ class UserActions:
         """
         try:
             query_parameters = request.args
-            id = query_parameters.get('id')
+            user_id = query_parameters.get('user_id')
 
-            if User.query.filter_by(id=id).first():
-                return jsonify({"userExist":True}), 200
+            if User.query.filter_by(user_id=user_id).first():
+                return jsonify(userExist=True), 200
 
             else:
-                return jsonify({"userExist":False}), 200
+                return jsonify(userExist=False), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"
@@ -58,18 +61,18 @@ class UserActions:
         """
         try:
             query_parameters = request.args
-            id = query_parameters.get('id')
+            user_id = query_parameters.get('user_id')
 
-            user = User.query.filter_by(id=id).first()
+            user = User.query.filter_by(user_id=user_id).first()
             if user:
                 # existing_keys = [k for k, v in query_parameters.items() if v]
                 for k, v in query_parameters.items():
                     user[k] = v
                 db.session.commit()
-                return jsonify({"ok":True}), 200
+                return jsonify(ok=True), 200
 
             else:
-                return jsonify({"ok":False}), 200
+                return jsonify(ok=False), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"

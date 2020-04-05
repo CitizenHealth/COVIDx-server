@@ -8,7 +8,6 @@ from . import auth
 def create_user():
     return UserActions.register()
 
-
 @auth.route('/login_user', methods=['GET'])
 def login_user():
     return UserActions.login()

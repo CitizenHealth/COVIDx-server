@@ -13,7 +13,7 @@ class TestBase(TestCase):
         config_name="testing"
         app = create_app(config_name)
         app.config.update(
-            SQLALCHEMY_DATABASE_URI='mysql://admin:password@localhost/covidx_test'
+            SQLALCHEMY_DATABASE_URI='mysql://admin@localhost/covidx_test'
         )
 
         return app
@@ -60,7 +60,8 @@ class TestViews(TestBase):
         self.assertEqual(response.status_code, 200)
 
     def test_auth_update(self):
-        response = self.client.put(url_for("auth.update_user"), data = dict(id="1", sex="female"))
+        response = self.client.put(url_for("auth.update_user"), 
+                                    data = dict(id="1", sex="female"))
         self.assertEqual(response.status_code, 200)
 
 

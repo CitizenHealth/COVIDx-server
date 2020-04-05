@@ -59,6 +59,10 @@ class TestViews(TestBase):
                                     )
         self.assertEqual(response.status_code, 200)
 
+    def test_auth_update(self):
+        response = self.client.put(url_for("auth.update_user"), data = dict(id="1", sex="female"))
+        self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()

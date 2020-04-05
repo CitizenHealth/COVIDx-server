@@ -36,7 +36,7 @@ class Role(db.Model):
 
     __tablename__="roles"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(50), index=True)
     description = db.Column(db.String(50), index=True)
 

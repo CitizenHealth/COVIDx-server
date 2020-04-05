@@ -42,20 +42,34 @@ class UserActions:
         try:
             query_parameters = request.args
             id = query_parameters.get('id')
-            name = query_parameters.get('name')
-            email = query_parameters.get('email')
-            # role_id = query_parameters.get('role_id')
-            is_staff = query_parameters.get('is_staff')
 
-            if User.query.filter_by(id=id, 
-                                    name=name, 
-                                    email=email, 
-                                    role_id=role_id, 
-                                    is_staff=is_staff).all():
+            if User.query.filter_by(id=id).first():
                 return jsonify({"userExist":True}), 200
 
             else:
                 return jsonify({"userExist":False}), 200
+
+        except Exception as e:
+            return f"An Error Occured: {e}"
+
+    def update():
+        """
+        update fields
+        """
+        try:
+            query_parameters = request.args
+            id = query_parameters.get('id')
+
+            user = User.query.filter_by(id=id).first()
+            if user:
+                # existing_keys = [k for k, v in query_parameters.items() if v]
+                for k, v in query_parameters.items():
+                    user[k] = v
+                db.session.commit()
+                return jsonify({"ok":True}), 200
+
+            else:
+                return jsonify({"ok":False}), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"

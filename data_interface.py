@@ -52,21 +52,18 @@ class UserActions:
                                     email=email, 
                                     role_id=role_id, 
                                     is_staff=is_staff).all():
-                # return jsonify({"ok":True}), 200
-                return True
+                return jsonify({"userExist":True}), 200
 
-            # else:
-            #     # REJECT YA
-            #     # return jsonify({"ok":False}), 200
-            #     return False
+            else:
+                return jsonify({"userExist":False}), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"
 
 
-    def login_switch():
-        if login():
-            return jsonify({"ok": True}), 200
-            # do something
-        else: 
-            register()
+    # def login_switch():
+    #     if login():
+    #         return jsonify({"ok": True}), 200
+    #         # do something
+    #     else: 
+    #         register()

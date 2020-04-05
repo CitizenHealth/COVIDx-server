@@ -45,7 +45,7 @@ class TestModels(TestBase):
 
 
 class TestViews(TestBase):
-    def test_auth_view(self):
+    def test_auth_login(self):
         response = self.client.get(url_for("auth.login_user"))
         self.assertEqual(response.status_code, 200)
 

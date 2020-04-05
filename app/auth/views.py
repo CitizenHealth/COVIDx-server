@@ -14,9 +14,9 @@ def login_user():
     return UserActions.login()
 
 
-@auth.route('/auth_user', methods=['GET', 'POST'])
-def auth_user():
-    return UserActions.login_switch()
+# @auth.route('/auth_user', methods=['GET', 'POST'])
+# def auth_user():
+#     return UserActions.login_switch()
 
 
 # @auth.route("/logout")

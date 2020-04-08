@@ -1,6 +1,5 @@
 __pycache__/
 
-_experimental/.ipynb_checkpoints/
 firebase-debug.log
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

@@ -1,10 +1,16 @@
-from typing import Optional, List
-from flask_pydantic import validate
-from pydantic import BaseModel
-import uuid
+from flask_login import UserMixin
+from sqlalchemy import CheckConstraint
+from app import db, login_manager
 
-# app = Flask
 
-class Location(BaseModel):
-    user_uuid: uuid.UUID
-    date_coords: dict = None
+class Location(db.Model):
+    """
+    figure out where they were at any given time
+    """
+    user_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
+    lat = db.Column(db.Integer())
+    lon = db.Column(db.Integer())
+    date = db.Column(db.DateTime())
+
+    def __repr__(self):
+        return f"role name => {self.name}"

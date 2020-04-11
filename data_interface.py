@@ -10,6 +10,23 @@ class UserActions:
     def __init__(self, testing=False):
         return
 
+    def get_all():
+        """
+        return all users
+        """
+        try:
+            query_parameters = request.args
+            res = [i.as_json for i in User.query.all()]
+
+            if res:
+                return jsonify(res=res, ok=True), 200
+
+            else:
+                return jsonify(res=null, ok=False), 200
+
+        except Exception as e:
+            return f"An Error Occured: {e}"
+
     def register():
         """
         adds the user to db
@@ -26,13 +43,13 @@ class UserActions:
                         email=email)
 
             db.session.add(user)
-            db.session.commit()
-            return jsonify(ok=True), 200
+            db.session.commit()      
+            return jsonify(res=user.as_json, ok=True), 200
 
         except Exception as e:
             db.session.rollback()
             print(f"An Error Occured: {e}")
-            return jsonify(ok=False), 200
+            return jsonify(res=null, ok=False), 200
 
         finally:
             db.session.close()
@@ -46,11 +63,13 @@ class UserActions:
             query_parameters = request.args
             user_id = query_parameters.get('user_id')
 
-            if User.query.filter_by(user_id=user_id).first():
-                return jsonify(userExist=True), 200
+            res = [i.as_json for i in User.query.filter_by(user_id=user_id).one()]
+
+            if res:
+                return jsonify(res=res, ok=True), 200
 
             else:
-                return jsonify(userExist=False), 200
+                return jsonify(res=null, ok=False), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"
@@ -63,7 +82,7 @@ class UserActions:
             query_parameters = request.args
             user_id = query_parameters.get('user_id')
 
-            user = User.query.filter_by(user_id=user_id).first()
+            user = User.query.filter_by(user_id=user_id).one()
             if user:
                 # existing_keys = [k for k, v in query_parameters.items() if v]
                 for k, v in query_parameters.items():

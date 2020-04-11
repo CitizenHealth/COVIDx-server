@@ -23,6 +23,17 @@ class User(UserMixin, db.Model):
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
 
+    @property
+    def as_json(self):
+        return {
+            "user_id": self.user_id, 
+            "email": self.email, 
+            "display_name":self.display_name,
+            "birth": self.birth,
+            "sex": self.sex,
+            "zip_code": self.zip_code,
+            "is_staff": self.is_staff
+        }
 
     def __repr__(self):
         return f"user email => {self.email}"

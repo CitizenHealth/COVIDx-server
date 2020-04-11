@@ -15,3 +15,7 @@ def login_user():
 @auth.route('/update_user', methods=['PUT'])
 def update_user():
     return UserActions.update()
+
+@auth.route('/all_users', methods=['GET'])
+def all_users():
+    return UserActions.get_all()

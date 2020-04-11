@@ -17,14 +17,12 @@ class ProductionConfig(Config):
     """
     prod config
     """
-
     DEBUG=False
 
 class TestingConfig(Config):
     """
     configurations for testing
     """
-
     TESTING=True
 
 

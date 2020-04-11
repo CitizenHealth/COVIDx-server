@@ -16,13 +16,13 @@ class UserActions:
         """
         try:
             query_parameters = request.args
-            res = [i.as_json for i in User.query.all()]
+            payload = [i.as_json for i in User.query.all()]
 
-            if res:
-                return jsonify(res=res, ok=True), 200
+            if payload:
+                return jsonify(payload=payload, ok=True), 200
 
             else:
-                return jsonify(res=null, ok=False), 200
+                return jsonify(payload=None, ok=False), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"
@@ -44,12 +44,12 @@ class UserActions:
 
             db.session.add(user)
             db.session.commit()      
-            return jsonify(res=user.as_json, ok=True), 200
+            return jsonify(payload=user.as_json, ok=True), 200
 
         except Exception as e:
             db.session.rollback()
             print(f"An Error Occured: {e}")
-            return jsonify(res=null, ok=False), 200
+            return jsonify(payload=None, ok=False), 200
 
         finally:
             db.session.close()
@@ -57,19 +57,19 @@ class UserActions:
 
     def login():
         """
-        does this user exist? returns a yes/no
+        does this user exist? returns payload
         """
         try:
             query_parameters = request.args
             user_id = query_parameters.get('user_id')
 
-            res = [i.as_json for i in User.query.filter_by(user_id=user_id).one()]
+            payload = [i.as_json for i in User.query.filter_by(user_id=user_id).one()]
 
-            if res:
-                return jsonify(res=res, ok=True), 200
+            if payload:
+                return jsonify(payload=payload, ok=True), 200
 
             else:
-                return jsonify(res=null, ok=False), 200
+                return jsonify(payload=None, ok=False), 200
 
         except Exception as e:
             return f"An Error Occured: {e}"

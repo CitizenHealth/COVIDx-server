@@ -16,12 +16,13 @@ class User(UserMixin, db.Model):
     user_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
     email = db.Column(db.String(50))
     display_name = db.Column(db.String(50))
-    birth = db.Column(db.Date)
+    birth = db.Column(db.DateTime())
     sex = db.Column(db.String(6), CheckConstraint("sex in ('male', 'female')"))
     zip_code = db.Column(db.String(10))
     # password_hash = db.Column(db.String(128)) check if we still need this with oauth
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
+    date_join = db.Column(db.DateTime())
 
     @property
     def as_json(self):
@@ -32,7 +33,8 @@ class User(UserMixin, db.Model):
             "birth": self.birth,
             "sex": self.sex,
             "zip_code": self.zip_code,
-            "is_staff": self.is_staff
+            "is_staff": self.is_staff,
+            "date_join": self.date_join
         }
 
     def __repr__(self):

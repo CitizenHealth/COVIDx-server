@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 import os
 
 from config import app_config
-# from data_interface import User
+
 
 db = SQLAlchemy()
 login_manager = LoginManager()

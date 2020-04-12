@@ -19,6 +19,7 @@ class ProductionConfig(Config):
     """
     DEBUG=False
 
+
 class TestingConfig(Config):
     """
     configurations for testing

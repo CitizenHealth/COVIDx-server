@@ -1,8 +1,10 @@
 from flask import request, jsonify
 from app import db, login_manager
+from datetime import datetime
 # from firebase_admin import credentials, firestore, initialize_app, auth
 
-from models.user import User
+from models.user import User, Role
+from models.location import Location
 
 
 class UserActions:
@@ -36,6 +38,7 @@ class UserActions:
             user_id=req_data['user_id']
             display_name = req_data['display_name']
             email = req_data['email']
+            date_join = datetime.now()
             # role_id = req_data['role_id']
 
             user = User(user_id=user_id, 
@@ -63,7 +66,7 @@ class UserActions:
             query_parameters = request.args
             user_id = query_parameters.get('user_id')
 
-            payload = [i.as_json for i in User.query.filter_by(user_id=user_id).one()]
+            payload = [i.as_json for i in User.query.filter_by(user_id=user_id)]
 
             if payload:
                 return jsonify(payload=payload, ok=True), 200
@@ -82,7 +85,7 @@ class UserActions:
             query_parameters = request.args
             user_id = query_parameters.get('user_id')
 
-            user = User.query.filter_by(user_id=user_id).one()
+            user = User.query.filter_by(user_id=user_id)
             if user:
                 # existing_keys = [k for k, v in query_parameters.items() if v]
                 for k, v in query_parameters.items():
@@ -95,3 +98,26 @@ class UserActions:
 
         except Exception as e:
             return f"An Error Occured: {e}"
+
+
+class LocationActions:
+    def __init__(self, testing=False):
+        return
+
+    def get_all():
+        """
+        return all users
+        """
+        try:
+            query_parameters = request.args
+            payload = [i.as_json for i in Location.query.all()]
+
+            if payload:
+                return jsonify(payload=payload, ok=True), 200
+
+            else:
+                return jsonify(payload=None, ok=False), 200
+
+        except Exception as e:
+            return f"An Error Occured: {e}"
+

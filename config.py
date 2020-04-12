@@ -11,6 +11,7 @@ class DevelopmentConfig(Config):
     """
 
     SQLALCHEMY_ECHO=True
+    SQLALCHEMY_DATABASE_URI = 'mysql://admin@localhost/covidx_db'
 
 
 class ProductionConfig(Config):
@@ -25,6 +26,7 @@ class TestingConfig(Config):
     configurations for testing
     """
     TESTING=True
+    SQLALCHEMY_DATABASE_URI = 'mysql://admin@localhost/covidx_db'
 
 
 app_config = {

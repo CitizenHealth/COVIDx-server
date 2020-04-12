@@ -28,7 +28,7 @@ def create_app(config_name):
     login_manager.login_message = "You need to be logged in."
     login_manager.login_view = "auth.login"
 
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, compare_type=True)
 
     @app.route("/")
     def homepage():
@@ -39,7 +39,10 @@ def create_app(config_name):
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix="/admin")
 
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
+    from .user import user as user_blueprint
+    app.register_blueprint(user_blueprint)
+
+    from .location import location as location_blueprint
+    app.register_blueprint(location_blueprint)
 
     return app

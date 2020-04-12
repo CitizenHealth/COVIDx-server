@@ -23,6 +23,9 @@ class User(UserMixin, db.Model):
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
     date_join = db.Column(db.DateTime())
+    img_link = db.Column(db.String(50))
+    sticky_lat = db.Column(db.Float())
+    sticky_lon = db.Column(db.Float())
 
     @property
     def as_json(self):

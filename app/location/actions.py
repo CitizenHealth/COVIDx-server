@@ -31,13 +31,17 @@ class LocationActions:
         except Exception as e:
             return f"An Error Occured: {e}"
 
-    def get_all_states():
+    def get_all_states_positive():
         """
         return all users
         """
         try:
             query_parameters = request.args
-            payload = [i.as_json for i in StateResults.query.all()]
+            payload = [{
+                'latitude':i.latitude, 
+                'longitude':i.longitude, 
+                'positive':i.positive
+            } for i in StateResults.query.all()]
 
             if payload:
                 return jsonify(payload=payload, ok=True), 200

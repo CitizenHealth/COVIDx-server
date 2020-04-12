@@ -6,6 +6,6 @@ from . import location
 def all_location():
     return LocationActions.get_all_users()
 
-@location.route('/get_all_states', methods=['GET'])
+@location.route('/get_all_states_positive', methods=['GET'])
 def get_all_states():
-    return LocationActions.get_all_states()
+    return LocationActions.get_all_states_positive()

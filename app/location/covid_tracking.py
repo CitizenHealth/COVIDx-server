@@ -3,8 +3,8 @@ import csv
 import os
 import uuid
 import MySQLdb 
-from dateutil.parser import parse
-
+# from dateutil.parser import parse
+import json
 
 def pull_recent():
     """
@@ -13,22 +13,30 @@ def pull_recent():
 
     covid_tracking = rq.get("https://covidtracking.com/api/v1/states/current.json").json()
     states_csv = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "_experiment", "states_coords.csv")
+    state_poly = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "_experiment", "state_poly.json")
 
     with open(states_csv, "r") as f:
         csv_file = csv.reader(f, delimiter=",")
         csv_unpacked = [row for row in csv_file]
         states_coords = [{csv_unpacked[0][i]: row[i] for i in range(len(row))} for row in csv_unpacked]
 
+    with open(state_poly, "r") as f:
+        jf=json.load(f)
+
     for covid_row in covid_tracking:
         for coords_row in states_coords:
             if covid_row['state']==coords_row['state']:
-                covid_row['longitude']=coords_row['longitude']
-                covid_row['latitude']=coords_row['latitude']
                 covid_row['name']=coords_row['name']
                 # covid_row['dateModified'] = parse(covid_row['dateModified']).strftime('%Y-%m-%d %H:%M:%S')
                 # covid_row['dateChecked'] = parse(covid_row['dateChecked']).strftime('%Y-%m-%d %H:%M:%S')
+    
+    for state_poly in jf['features']:
+        for state_covid in covid_tracking:
+            if state_poly['properties']['NAME']==state_covid['name']:
+                state_poly['properties']['positive'] = state_covid['positive']
+                break
 
-    return covid_tracking
+    return jf
 
 # def covid_tracking_to_db(environ="prod"):
 #     """

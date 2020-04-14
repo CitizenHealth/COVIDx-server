@@ -4,6 +4,7 @@ from datetime import datetime
 from .covid_tracking import pull_recent
 import uuid
 import sqlalchemy
+from .covid_tracking import pull_recent
 # from firebase_admin import credentials, firestore, initialize_app, auth
 
 from models.location import Location, StateResults
@@ -36,12 +37,14 @@ class LocationActions:
         return all users
         """
         try:
-            query_parameters = request.args
-            payload = [{
-                'latitude':i.latitude, 
-                'longitude':i.longitude, 
-                'positive':i.positive
-            } for i in StateResults.query.all()]
+            # query_parameters = request.args
+            # payload = [{
+            #     'latitude':i.latitude, 
+            #     'longitude':i.longitude, 
+            #     'positive':i.positive
+            # } for i in StateResults.query.all()]
+            payload = pull_recent()
+
 
             if payload:
                 return jsonify(payload=payload, ok=True), 200

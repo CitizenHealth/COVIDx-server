@@ -13,3 +13,7 @@ def get_results_county():
 @location.route('/get_state_results', methods=['GET'])
 def get_results_state():
     return LocationActions.get_state_results()
+
+@location.route('/get_state_county_results', methods=['GET'])
+def get_results_state():
+    return LocationActions.get_state_county_results()

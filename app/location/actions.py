@@ -36,12 +36,6 @@ class LocationActions:
         return all users
         """
         try:
-            # query_parameters = request.args
-            # payload = [{
-            #     'latitude':i.latitude, 
-            #     'longitude':i.longitude, 
-            #     'positive':i.positive
-            # } for i in StateResults.query.all()]
             payload = get_counties()
 
 
@@ -59,12 +53,6 @@ class LocationActions:
         return all users
         """
         try:
-            # query_parameters = request.args
-            # payload = [{
-            #     'latitude':i.latitude, 
-            #     'longitude':i.longitude, 
-            #     'positive':i.positive
-            # } for i in StateResults.query.all()]
             payload = get_states()
 
 
@@ -76,4 +64,22 @@ class LocationActions:
 
         except Exception as e:
             return f"An Error Occured: {e}"
+
+    def get_state_county_results():
+        """
+        return all users by state name
+        """
+        try:
+            payload = get_state_counties()
+
+
+            if payload:
+                return jsonify(payload=payload, ok=True), 200
+
+            else:
+                return jsonify(payload=None, ok=False), 200
+
+        except Exception as e:
+            return f"An Error Occured: {e}"
+
 

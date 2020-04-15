@@ -10,7 +10,7 @@ import subprocess
 
 
 def pull_nyt_data():
-    return subprocess.check_output(["git", "-C", "covid-19-data", "pull"])
+    return subprocess.check_output(["git", "submodule", "update", "--init", "--remote", "--", "_experiment/covid-19-data"])
 
 def geojson_to_dict(path):
     with open(path, "r") as f:

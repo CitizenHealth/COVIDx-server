@@ -36,8 +36,8 @@ def pull_recent():
     for county in counties_covid:
         curr_keys = counties_covid_recent.keys()
         this_fip = county['fips']
-        this_deaths = county['deaths']
-        this_cases = county['cases']
+        this_deaths = int(county['deaths'])
+        this_cases = int(county['cases'])
         this_date = datetime.strptime(county['date'], "%Y-%m-%d")
 
         if this_fip in curr_keys and this_date > counties_covid_recent[this_fip]['date']:

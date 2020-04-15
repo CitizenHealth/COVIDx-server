@@ -1,10 +1,9 @@
 from flask import request, jsonify
 from app import db
 from datetime import datetime
-from .covid_tracking import pull_recent
 import uuid
 import sqlalchemy
-from .covid_tracking import pull_recent
+from .covid_tracking import get_counties, get_states
 # from firebase_admin import credentials, firestore, initialize_app, auth
 
 from models.location import Location, StateResults
@@ -32,7 +31,7 @@ class LocationActions:
         except Exception as e:
             return f"An Error Occured: {e}"
 
-    def get_all_states_positive():
+    def get_county_results():
         """
         return all users
         """
@@ -43,7 +42,30 @@ class LocationActions:
             #     'longitude':i.longitude, 
             #     'positive':i.positive
             # } for i in StateResults.query.all()]
-            payload = pull_recent()
+            payload = get_counties()
+
+
+            if payload:
+                return jsonify(payload=payload, ok=True), 200
+
+            else:
+                return jsonify(payload=None, ok=False), 200
+
+        except Exception as e:
+            return f"An Error Occured: {e}"
+
+    def get_state_results():
+        """
+        return all users
+        """
+        try:
+            # query_parameters = request.args
+            # payload = [{
+            #     'latitude':i.latitude, 
+            #     'longitude':i.longitude, 
+            #     'positive':i.positive
+            # } for i in StateResults.query.all()]
+            payload = get_states()
 
 
             if payload:

@@ -63,7 +63,7 @@ def get_state_counties():
     _counties_coords = geojson_to_dict(PATH_COORDS)
     counties_coords = {**_counties_coords, 'features':[feat for feat in _counties_coords['features'] if feat['properties']['STATE_NAME']==state]}
     _counties_covid = csv_to_dict(PATH_COVID)
-    [county for county in _counties_covid if county['state']==state]
+    counties_covid = [county for county in _counties_covid if county['state']==state]
     
     counties_covid_recent = {}
     for county in counties_covid:

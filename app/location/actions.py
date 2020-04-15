@@ -3,7 +3,7 @@ from app import db
 from datetime import datetime
 import uuid
 import sqlalchemy
-from .covid_tracking import get_counties, get_states
+from .covid_tracking import get_counties, get_states, get_state_counties
 # from firebase_admin import credentials, firestore, initialize_app, auth
 
 from models.location import Location, StateResults

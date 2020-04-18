@@ -18,17 +18,26 @@ def geojson_to_dict(path):
         counties_coords = json.load(f)
     return counties_coords
 
-def csv_to_dict(path):
-    with open(path, "r") as f:
-        csv_file = csv.reader(f, delimiter=",")
-        csv_unpacked = [row for row in csv_file]
-        states_coords = [{csv_unpacked[0][i]: row[i] for i in range(len(row))} for row in csv_unpacked][1:]
+# def csv_to_dict(path):
+#     with open(path, "r") as f:
+#         csv_file = csv.reader(f, delimiter=",")
+#         csv_unpacked = [row for row in csv_file]
+#         states_coords = [{csv_unpacked[0][i]: row[i] for i in range(len(row))} for row in csv_unpacked][1:]
         
+#     return states_coords
+
+def csv_to_dict(path):
+    with rq.Session() as s:
+        download = s.get(path)
+        decoded = download.content.decode("utf-8")
+        cr = csv.reader(decoded.splitlines(), delimiter=',')
+        csv_unpacked = [row for row in list(cr)]
+        states_coords = [{csv_unpacked[0][i]: row[i] for i in range(len(row))} for row in csv_unpacked][1:]
     return states_coords
 
 def get_counties(): 
     PATH_COORDS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "_experiment", "us_counties_coords.geojson")
-    PATH_COVID = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "_experiment", "covid-19-data", "us-counties.csv")
+    PATH_COVID = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
 
     counties_coords = geojson_to_dict(PATH_COORDS)
     counties_covid = csv_to_dict(PATH_COVID)
@@ -58,7 +67,7 @@ def get_counties():
 def get_state_counties(): 
     state = request.args.get("state", type=str)
     PATH_COORDS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "_experiment", "us_counties_coords.geojson")
-    PATH_COVID = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "_experiment", "covid-19-data", "us-counties.csv")
+    PATH_COVID = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
 
     _counties_coords = geojson_to_dict(PATH_COORDS)
     counties_coords = {**_counties_coords, 'features':[feat for feat in _counties_coords['features'] if feat['properties']['STATE_NAME']==state]}

@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import CheckConstraint
 
 
 class SurveyResponse(db.Model):
@@ -17,7 +18,7 @@ class SurveyResponse(db.Model):
     household_test_date = db.Column(db.DateTime())
     therm_temp = db.Column(db.Float())
     temp_guess = db.Column(db.String(50))
-    sex = db.Column(db.String(2))
+    sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
     age = db.Column(db.String(50))
     has_symptom_dry_cough = db.Column(db.Boolean())
     has_symptom_no_smell_taste = db.Column(db.Boolean())
@@ -43,6 +44,7 @@ class SurveyResponse(db.Model):
     history_hiv_aids = db.Column(db.Boolean())
     history_bmi_over_40 = db.Column(db.Boolean())
     datetime_submitted = db.Column(db.DateTime())
+    location = db.Column(db.String(50))
 
     @property
     def as_json(self):

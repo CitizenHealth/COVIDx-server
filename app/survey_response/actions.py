@@ -55,7 +55,7 @@ class SurveyResponseActions:
                     req_data[f"history_{k}"] = v
                 elif k == "therm_temp":
                     req_data[k] = float(v)
-                elif k.endswith("_date"):
+                elif k.endswith("_date") and v:
                     req_data[k] = datetime.strptime(v, "%Y-%m-%d")
                 else:
                     req_data[k] = v

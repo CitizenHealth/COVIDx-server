@@ -38,7 +38,7 @@ class UserActions:
             display_name = req_data['display_name']
             email = req_data['email']
             date_join = datetime.now()
-            img_link = req_data['image']
+            img_link = req_data['img_link']
             # role_id = req_data['role_id']
 
             user = User(user_id=user_id, 

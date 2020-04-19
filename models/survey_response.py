@@ -10,7 +10,7 @@ class SurveyResponse(db.Model):
         autoincrement=True,
         unique=True,  # nullable=True
     )
-    user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"), nullable=False)
+    user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"))
     self_tested = db.Column(db.String(50))
     self_test_date = db.Column(db.DateTime())
     household_tested = db.Column(db.String(50))

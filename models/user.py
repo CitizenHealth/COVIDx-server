@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
+    user_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
     email = db.Column(db.String(50))
     display_name = db.Column(db.String(50))
     birth = db.Column(db.DateTime())

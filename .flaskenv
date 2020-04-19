@@ -1,3 +1,2 @@
-FLASK_CONFIG=production
+FLASK_CONFIG=development
 FLASK_APP=run.py
-

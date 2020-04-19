@@ -22,6 +22,19 @@ _SYMPTOMS = [
     "other",
 ]
 
+_HISTORIES = [
+    "high_blood_pressure",
+    "asthma",
+    "copd_emphysema",
+    "chronic_kidney_disease",
+    "liver_disease",
+    "cancer",
+    "diabetes",
+    "cardiovascular_disease",
+    "hiv_aids",
+    "bmi_over_40",
+]
+
 
 class SurveyResponseActions:
     def __init__(self, testing=False):
@@ -36,15 +49,16 @@ class SurveyResponseActions:
             for k, v in request.get_json().items():
                 if v == "null":
                     continue
-                if k in _SYMPTOMS:
-                    req_data[f"has_symptom_{k}"] = True
-                elif k == "thermometer_temp":
+                elif k in _SYMPTOMS:
+                    req_data[f"has_symptom_{k}"] = v
+                elif k in _HISTORIES:
+                    req_data[f"history_{k}"] = v
+                elif k == "therm_temp":
                     req_data[k] = float(v)
                 elif k.endswith("_date"):
                     req_data[k] = datetime.strptime(v, "%Y-%m-%d")
                 else:
                     req_data[k] = v
-            req_data.update({f"has_symptom_{s}": False for s in _SYMPTOMS})
             req_data["datetime_submitted"] = datetime.now()
 
             survey_response = SurveyResponse(**req_data)

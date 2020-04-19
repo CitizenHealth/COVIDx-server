@@ -25,9 +25,9 @@ def create_app(config_name):
 
     db.init_app(app)
 
-    login_manager.init_app(app)
-    login_manager.login_message = "You need to be logged in."
-    login_manager.login_view = "auth.login"
+    # login_manager.init_app(app)
+    # login_manager.login_message = "You need to be logged in."
+    # login_manager.login_view = "auth.login"
 
     migrate = Migrate(app, db, compare_type=True)
 

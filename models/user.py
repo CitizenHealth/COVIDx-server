@@ -37,7 +37,10 @@ class User(UserMixin, db.Model):
             "sex": self.sex,
             "zip_code": self.zip_code,
             "is_staff": self.is_staff,
-            "date_join": self.date_join
+            "date_join": self.date_join,
+            "img_link": self.img_link,
+            "sticky_lat": self.sticky_lat,
+            "sticky_lon": self.sticky_lon,
         }
 
     def __repr__(self):

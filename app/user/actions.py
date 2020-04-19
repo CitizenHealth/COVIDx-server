@@ -43,7 +43,9 @@ class UserActions:
 
             user = User(user_id=user_id, 
                         display_name=display_name, 
-                        email=email)
+                        email=email,
+                        img_link=img_link,
+                        date_join=date_join)
 
             db.session.add(user)
             db.session.commit()      

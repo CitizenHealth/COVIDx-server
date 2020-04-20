@@ -34,18 +34,14 @@ class UserActions:
         """
         try:
             req_data = request.get_json()
-            user_id=req_data['user_id']
-            display_name = req_data['display_name']
-            email = req_data['email']
-            date_join = datetime.now()
-            img_link = req_data['img_link']
+            # user_id=req_data['user_id']
+            # display_name = req_data['display_name']
+            # email = req_data['email']
+            # date_join = datetime.now()
+            # img_link = req_data['img_link']
             # role_id = req_data['role_id']
 
-            user = User(user_id=user_id, 
-                        display_name=display_name, 
-                        email=email,
-                        img_link=img_link,
-                        date_join=date_join)
+            user = User(**req_data)
 
             db.session.add(user)
             db.session.commit()      

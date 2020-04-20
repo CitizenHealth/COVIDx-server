@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     display_name = db.Column(db.String(50))
     birth = db.Column(db.DateTime())
     zip_code = db.Column(db.String(10))
+    sex = db.Column(db.String(6), CheckConstraint("sex in ('male', 'female')"))
     # password_hash = db.Column(db.String(128)) check if we still need this with oauth
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
@@ -28,19 +29,7 @@ class User(UserMixin, db.Model):
 
     @property
     def as_json(self):
-        return {
-            "user_id": self.user_id, 
-            "email": self.email, 
-            "display_name":self.display_name,
-            "birth": self.birth,
-            "sex": self.sex,
-            "zip_code": self.zip_code,
-            "is_staff": self.is_staff,
-            "date_join": self.date_join,
-            "img_link": self.img_link,
-            "sticky_lat": self.sticky_lat,
-            "sticky_lon": self.sticky_lon,
-        }
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
     def __repr__(self):
         return f"user email => {self.email}"

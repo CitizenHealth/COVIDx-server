@@ -14,9 +14,9 @@ class SurveyResponse(db.Model):
     user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"))
     location = db.Column(db.String(50))
     self_tested = db.Column(db.String(50))
-    self_test_date = db.Column(db.DateTime())
+    self_tested_date = db.Column(db.DateTime())
     household_tested = db.Column(db.String(50))
-    household_test_date = db.Column(db.DateTime())
+    household_tested_date = db.Column(db.DateTime())
     therm_temp = db.Column(db.Float())
     temp_guess = db.Column(db.String(50))
     sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
@@ -45,6 +45,7 @@ class SurveyResponse(db.Model):
     history_hiv_aids = db.Column(db.Boolean())
     history_bmi_over_40 = db.Column(db.Boolean())
     datetime_submitted = db.Column(db.DateTime())
+    feeling_well = db.Column(db.String(50))
 
     @property
     def as_json(self):

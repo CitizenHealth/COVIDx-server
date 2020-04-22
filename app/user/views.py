@@ -8,9 +8,13 @@ from . import user
 def create_user():
     return UserActions.register()
 
-@user.route('/login_user', methods=['GET'])
+@user.route('/new_login_user', methods=['PUT'])
 def login_user():
     return UserActions.login()
+
+@user.route('/check_token', methods=['GET'])
+def check_logged_user():
+    return UserActions.check_token()
 
 @user.route('/update_user', methods=['PUT'])
 def update_user():

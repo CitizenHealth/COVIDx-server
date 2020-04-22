@@ -23,7 +23,7 @@ class UserActions:
                 return jsonify(payload=payload, ok=True), 200
 
             else:
-                return jsonify(payload=None, ok=False), 200
+                return jsonify(payload=None, ok=False), 204
 
         except Exception as e:
             return f"An Error Occured: {e}"
@@ -34,23 +34,16 @@ class UserActions:
         """
         try:
             req_data = request.get_json()
-            # user_id=req_data['user_id']
-            # display_name = req_data['display_name']
-            # email = req_data['email']
-            # date_join = datetime.now()
-            # img_link = req_data['img_link']
-            # role_id = req_data['role_id']
-
             user = User(**req_data)
 
             db.session.add(user)
-            db.session.commit()      
+            db.session.commit()
             return jsonify(payload=user.as_json, ok=True), 200
 
         except Exception as e:
             db.session.rollback()
             print(f"An Error Occured: {e}")
-            return jsonify(payload=None, ok=False), 200
+            return jsonify(payload=None, ok=False), 404
 
         finally:
             db.session.close()
@@ -58,22 +51,56 @@ class UserActions:
 
     def login():
         """
-        does this user exist? returns payload
+        does this user exist? if so, create a token for them, and return the new values
+        """
+        try:
+            user_id = request.args.get('user_id')
+            token = request.get_json()['access_token']
+
+            payload = User.query.filter_by(user_id=user_id).first()
+
+            if payload:
+                # add the new web token to db
+                payload.access_token = token
+                db.session.commit()
+                return jsonify(payload=payload.as_json, ok=True), 200
+
+            else:
+                return jsonify(payload=None, ok=False), 204
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"An Error Occured: {e}")
+            return jsonify(payload=None, ok=False), 404
+
+        finally:
+            db.session.close()
+
+    def check_token():
+        """
+        use this function to check whether or not this token exists - return user data
         """
         try:
             query_parameters = request.args
-            user_id = query_parameters.get('user_id')
+            token = query_parameters.get('access_token')
 
-            payload = [i.as_json for i in User.query.filter_by(user_id=user_id)]
+            payload = [i.as_json for i in User.query.filter_by(access_token=token)]
 
             if payload:
+                # if this token exists, return the user
                 return jsonify(payload=payload, ok=True), 200
 
             else:
-                return jsonify(payload=None, ok=False), 200
+                return jsonify(payload=None, ok=False), 204
 
         except Exception as e:
-            return f"An Error Occured: {e}"
+            db.session.rollback()
+            print(f"An Error Occured: {e}")
+            return jsonify(payload=None, ok=False), 404
+
+        finally:
+            db.session.close()
+
 
     def update():
         """
@@ -92,7 +119,7 @@ class UserActions:
                 return jsonify(ok=True), 200
 
             else:
-                return jsonify(ok=False), 200
+                return jsonify(ok=False), 204
 
         except Exception as e:
             return f"An Error Occured: {e}"

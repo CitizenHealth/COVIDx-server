@@ -19,13 +19,13 @@ class User(UserMixin, db.Model):
     birth = db.Column(db.DateTime())
     zip_code = db.Column(db.String(10))
     sex = db.Column(db.String(6), CheckConstraint("sex in ('male', 'female')"))
-    # password_hash = db.Column(db.String(128)) check if we still need this with oauth
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
     date_join = db.Column(db.DateTime())
-    img_link = db.Column(db.String(50))
+    img_link = db.Column(db.String(250))
     sticky_lat = db.Column(db.Float())
     sticky_lon = db.Column(db.Float())
+    access_token = db.Column(db.String(250))
 
     @property
     def as_json(self):

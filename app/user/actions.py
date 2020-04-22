@@ -34,11 +34,11 @@ class UserActions:
         """
         try:
             req_data = request.get_json()
-            user = User(**req_data)
+            payload = User(**req_data)
 
-            db.session.add(user)
+            db.session.add(payload)
             db.session.commit()
-            return jsonify(payload=user.as_json, ok=True), 200
+            return jsonify(payload=payload.as_json, ok=True), 200
 
         except Exception as e:
             db.session.rollback()
@@ -109,17 +109,22 @@ class UserActions:
         try:
             query_parameters = request.args
             user_id = query_parameters.get('user_id')
+            request_body = request.get_json()
 
-            user = User.query.filter_by(user_id=user_id)
-            if user:
-                # existing_keys = [k for k, v in query_parameters.items() if v]
-                for k, v in query_parameters.items():
-                    user[k] = v
+            payload = User.query.filter_by(user_id=user_id).first()
+            if payload:
+                for k, v in request_body.items():
+                    payload[k] = v
                 db.session.commit()
-                return jsonify(ok=True), 200
+                return jsonify(payload=payload.as_json, ok=True), 200
 
             else:
-                return jsonify(ok=False), 204
+                return jsonify(payload=None, ok=False), 204
 
         except Exception as e:
-            return f"An Error Occured: {e}"
+            db.session.rollback()
+            print(f"An Error Occured: {e}")
+            return jsonify(payload=None, ok=False), 404
+
+        finally:
+            db.session.close()

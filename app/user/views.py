@@ -11,6 +11,7 @@ def create_user():
 @user.route('/new_login_user', methods=['PUT'])
 def login_user():
     return UserActions.login()
+# alternatively, can do the "check if logged in, and if not, register" here
 
 @user.route('/check_token', methods=['GET'])
 def check_logged_user():

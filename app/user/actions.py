@@ -84,11 +84,11 @@ class UserActions:
             query_parameters = request.args
             token = query_parameters.get('access_token')
 
-            payload = [i.as_json for i in User.query.filter_by(access_token=token)]
+            payload = User.query.filter_by(access_token=token).first()
 
             if payload:
                 # if this token exists, return the user
-                return jsonify(payload=payload, ok=True), 200
+                return jsonify(payload=payload.as_json, ok=True), 200
 
             else:
                 return jsonify(payload=None, ok=False), 204

@@ -12,7 +12,8 @@ class SurveyResponse(db.Model):
         unique=True,  # nullable=True
     )
     user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"))
-    location = db.Column(db.String(50))
+    latitude = db.Column(db.Float())
+    longitude = db.Column(db.Float())
     self_tested = db.Column(db.String(50))
     self_tested_date = db.Column(db.DateTime())
     household_tested = db.Column(db.String(50))

@@ -23,8 +23,8 @@ class User(UserMixin, db.Model):
     is_staff = db.Column(db.Boolean, default=False)
     date_join = db.Column(db.DateTime())
     img_link = db.Column(db.String(250))
-    sticky_lat = db.Column(db.Float())
-    sticky_lon = db.Column(db.Float())
+    # sticky_lat = db.Column(db.Float())
+    # sticky_lon = db.Column(db.Float())
     access_token = db.Column(db.String(250))
     human_token = db.Column(db.String(250))
 

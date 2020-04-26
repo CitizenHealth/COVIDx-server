@@ -56,7 +56,7 @@ class SurveyResponseActions:
                 elif k == "therm_temp":
                     req_data[k] = float(v)
                 elif k.endswith("_date") and v is not None:
-                    req_data[k] = datetime.strptime(v, "%Y-%m-%d")
+                    req_data[k] = datetime.strptime(v, "%Y-%m-%d") # need to create error message here with the format needed
                 else:
                     req_data[k] = v
             req_data["datetime_submitted"] = datetime.now()
@@ -70,7 +70,7 @@ class SurveyResponseActions:
         except Exception as e:
             db.session.rollback()
             print(f"An Error Occured: {e}")
-            return jsonify(payload=None, ok=False, error=e), 404
+            return jsonify(payload=None, ok=False), 404
 
         finally:
             db.session.close()

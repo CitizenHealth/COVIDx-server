@@ -13,12 +13,19 @@ class User(UserMixin, db.Model):
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
+    user_id = db.Column(
+        db.String(50), 
+        autoincrement=True, 
+        primary_key=True, 
+        unique=True, 
+        nullable=False
+    )
     email = db.Column(db.String(50))
     display_name = db.Column(db.String(50))
     birth = db.Column(db.DateTime())
     zip_code = db.Column(db.String(10))
-    # sex = db.Column(db.String(6), CheckConstraint("sex in ('male', 'female')"))
+    sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
+    date_birth = db.Column(db.DateTime())
     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
     date_join = db.Column(db.DateTime())
@@ -27,6 +34,8 @@ class User(UserMixin, db.Model):
     # sticky_lon = db.Column(db.Float())
     access_token = db.Column(db.String(250))
     human_token = db.Column(db.String(250))
+    latitude = db.Column(db.Float())
+    longitude = db.Column(db.Float())
 
     @property
     def as_json(self):

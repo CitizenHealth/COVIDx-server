@@ -70,7 +70,7 @@ class SurveyResponseActions:
         except Exception as e:
             db.session.rollback()
             print(f"An Error Occured: {e}")
-            return jsonify(payload=None, ok=False), 404
+            return jsonify(payload=None, ok=False, error=e), 404
 
         finally:
             db.session.close()

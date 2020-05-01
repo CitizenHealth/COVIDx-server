@@ -1,6 +1,5 @@
 from flask_login import UserMixin
 from sqlalchemy import CheckConstraint
-# from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db, login_manager
 
@@ -15,34 +14,25 @@ class User(UserMixin, db.Model):
 
     user_id = db.Column(
         db.String(50), 
-        autoincrement=True, 
         primary_key=True, 
         unique=True, 
-        nullable=False
+        nullable=False,
+        autoincrement=True,
     )
-    email = db.Column(db.String(50))
-    display_name = db.Column(db.String(50))
+    firebase_id = db.Column(db.String(50), unique=True, nullable=False)
     birth = db.Column(db.DateTime())
-    zip_code = db.Column(db.String(10))
     sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
     date_birth = db.Column(db.DateTime())
-    # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_staff = db.Column(db.Boolean, default=False)
     date_join = db.Column(db.DateTime())
     img_link = db.Column(db.String(250))
-    # sticky_lat = db.Column(db.Float())
-    # sticky_lon = db.Column(db.Float())
-    access_token = db.Column(db.String(250))
-    human_token = db.Column(db.String(250))
-    latitude = db.Column(db.Float())
-    longitude = db.Column(db.Float())
 
     @property
     def as_json(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
     def __repr__(self):
-        return f"user email => {self.email}"
+        return f"welcome to covidx => {self.display_name}"
 
 
 class Role(db.Model):
@@ -57,5 +47,5 @@ class Role(db.Model):
     description = db.Column(db.String(50), index=True)
 
     def __repr__(self):
-        return f"role name => {self.name}"
+        return f"role id => {self.role_id}"
 

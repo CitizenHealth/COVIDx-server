@@ -4,7 +4,7 @@ from sqlalchemy import CheckConstraint
 from app import db, login_manager
 
 
-class User(UserMixin, db.Model):
+class Users(UserMixin, db.Model):
     """
     user table...
     do we assign our own ids? use oauth ids??
@@ -45,6 +45,10 @@ class Role(db.Model):
     role_id = db.Column(db.String(50), primary_key=True, unique=True)
     name = db.Column(db.String(50), index=True)
     description = db.Column(db.String(50), index=True)
+
+    @property
+    def as_json(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
     def __repr__(self):
         return f"role id => {self.role_id}"

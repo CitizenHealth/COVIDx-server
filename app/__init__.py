@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from google.oauth2 import id_token
+# from google.oauth2 import id_token
 import os
 from config import app_config
 import requests
@@ -30,19 +30,19 @@ def create_app(config_name):
     migrate = Migrate(app, db, compare_type=True)
 
 
-    @login_manager.request_loader
-    @app.before_request
-    def firebase_auth(request):
-        authorization = request.headers.get("Authorization")
+    # @login_manager.request_loader
+    # @app.before_request
+    # def firebase_auth(request):
+    #     authorization = request.headers.get("Authorization")
         
-        try:
-            token = authorization.replace('Bearer: ', '', 1)
-            claims = id_token.verify_firebase_token(token, requests.Request())
+    #     try:
+    #         token = authorization.replace('Bearer: ', '', 1)
+    #         claims = id_token.verify_firebase_token(token, requests.Request())
         
-        except:
-            raise ValueError("invalid firebase token bro")
+    #     except:
+    #         raise ValueError("invalid firebase token bro")
 
-        user = await user
+        # user = await user
 
 
     @app.route("/")

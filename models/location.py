@@ -1,6 +1,5 @@
-from flask_login import UserMixin
 from sqlalchemy import CheckConstraint
-from app import db, login_manager
+from app import db
 
 
 class Location(db.Model):
@@ -10,7 +9,7 @@ class Location(db.Model):
     __tablename__ = "location"
 
     location_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
-    user_id = db.Column(db.String(50), db.ForeignKey('users.user_id'))
+    survey_id = db.Column(db.Integer(), db.ForeignKey('survey_metadata.survey_id'))
     latitude = db.Column(db.Float())
     longitude = db.Column(db.Float())
     date = db.Column(db.DateTime())

@@ -25,7 +25,6 @@ class Users(UserMixin, db.Model):
     date_birth = db.Column(db.DateTime())
     is_staff = db.Column(db.Boolean, default=False)
     date_join = db.Column(db.DateTime())
-    img_link = db.Column(db.String(250))
 
     @property
     def as_json(self):

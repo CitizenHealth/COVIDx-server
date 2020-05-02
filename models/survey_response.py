@@ -1,3 +1,33 @@
+from sqlalchemy_utils import create_view
+# from sqlalchemy import select, func
+from app import db
+
+from .survey_metadata import SurveyMetadata
+from .location import Location
+from .medical_history import MedicalHistory
+from .sentiment import Sentiment
+from .symptom import Symptom
+from .temperature import Temperature
+from .test_status import TestStatus
+
+
+class SurveyResponse(db.Model):
+    query = db.session.query(
+        SurveyMetadata,
+        Location,
+        MedicalHistory,
+        Sentiment,
+        Symptom,
+        Temperature,
+        TestStatus
+    ).join(Location).join(MedicalHistory) \
+    .join(Sentiment).join(Symptom) \
+    .join(Temperature).join(TestStatus)
+
+    view = create_view("survey_response", query, db.metadata)
+    __table__ = view
+
+
 # from app import db
 # from sqlalchemy import CheckConstraint
 
@@ -51,3 +81,4 @@
     # @property
     # def as_json(self):
     #     return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+

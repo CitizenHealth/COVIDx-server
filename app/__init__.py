@@ -65,7 +65,7 @@ def create_app(config_name):
         from .admin import admin as admin_blueprint
         from .user import user as user_blueprint
         from .location import location as location_blueprint
-        from .survey_response import survey_response as survey_response_blueprint
+        # from .survey_response import survey_response as survey_response_blueprint
         from .auth import auth as auth_blueprint
 
         app.register_blueprint(admin_blueprint, url_prefix="/admin")

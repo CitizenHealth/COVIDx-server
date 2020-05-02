@@ -91,6 +91,7 @@ def login_user():
             db.session.add(auth_payload)
             db.session.commit()
             return jsonify(message=f"user created @ => {fb_id}"), 200
+
     except Exception as e:
         return jsonify(message=f"error {str(e)}"), 404
 
@@ -116,7 +117,6 @@ def update_user():
 
     except Exception as e:
         db.session.rollback()
-        print(f"An Error Occured: {e}")
         return jsonify(message=f"error {str(e)}"), 404
 
     finally:
@@ -138,12 +138,24 @@ def update_user():
 #     except Exception as e:
 #         return jsonify(message=f"error {str(e)}"), 404
 
-
+# generic "create covid status function, don't know where this will come from"
 @user.route('/create_covid_status', methods=['PUT'])
 def create_covid_status():
     try:
         request_body = request.get_json()
         fb_id = request_body.get('firebase_id')
+        # get user id using fb id from user table
         user_data = User.query.filter_by(firebase_id=fb_id).first()
         user_id = user_data['user_id']
-        CovidStatus.query.filter_by(user_id=user_id)
+        # fill in the covid status
+        payload = CovidStatus(**req_body)
+        db.session.add(payload)
+        db.session.commit()
+        return jsonify(message=f"covid status updated @ {user_id}")
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify(message=f"error {str(e)}"), 404
+
+    finally:
+        db.session.close()

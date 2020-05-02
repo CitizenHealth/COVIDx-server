@@ -93,6 +93,7 @@ def login_user():
             return jsonify(message=f"user created @ => {fb_id}"), 200
 
     except Exception as e:
+        db.session.rollback()
         return jsonify(message=f"error {str(e)}"), 404
 
     finally:
@@ -147,8 +148,11 @@ def create_covid_status():
         # get user id using fb id from user table
         user_data = User.query.filter_by(firebase_id=fb_id).first()
         user_id = user_data['user_id']
-        # fill in the covid status
-        payload = CovidStatus(**req_body)
+        # replace firebase id for user id 
+        req_sending = {k:v for k, v in request_body if k!='firebase_id'}
+        req_sending['user_id'] = user_id
+        # send this info over to db
+        payload = CovidStatus(**req_sending)
         db.session.add(payload)
         db.session.commit()
         return jsonify(message=f"covid status updated @ {user_id}")

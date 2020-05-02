@@ -7,7 +7,7 @@ from app import db, login_manager
 class Users(UserMixin, db.Model):
     """
     user table...
-    do we assign our own ids? use oauth ids??
+    do we assign our own ids? use fb ids??
     """
 
     __tablename__ = "users"

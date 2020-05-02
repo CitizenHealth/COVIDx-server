@@ -42,7 +42,7 @@ def create_app(config_name):
     #     except:
     #         raise ValueError("invalid firebase token bro")
 
-        # user = await user
+    #     user = await user
 
 
     @app.route("/")

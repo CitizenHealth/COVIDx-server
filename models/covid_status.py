@@ -4,13 +4,13 @@ class CovidStatus(db.Model):
     __tablename__ = "covid_status"
 
     covid_status_id = db.Column(
-        db.String(50), 
+        db.Integer(), 
         primary_key=True, 
         unique=True, 
         nullable=False,
         autoincrement=True
     )
-    user_id = db.Column(db.String(50), db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.user_id'))
     covid_status = db.Column(db.String(50))
 
     @property

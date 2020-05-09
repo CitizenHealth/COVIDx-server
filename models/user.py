@@ -1,10 +1,10 @@
 from flask_login import UserMixin
 from sqlalchemy import CheckConstraint
 
-from app import db, login_manager
+from app import db
 
 
-class Users(UserMixin, db.Model):
+class User(UserMixin, db.Model):
     """
     user table...
     do we assign our own ids? use fb ids??
@@ -13,7 +13,7 @@ class Users(UserMixin, db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(
-        db.String(50), 
+        db.Integer(), 
         primary_key=True, 
         unique=True, 
         nullable=False,
@@ -23,7 +23,8 @@ class Users(UserMixin, db.Model):
     birth = db.Column(db.DateTime())
     sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
     date_birth = db.Column(db.DateTime())
-    is_staff = db.Column(db.Boolean, default=False)
+    # role = db.Column(db.Boolean, default=False)
+    role_id = db.Column(db.Integer(), db.ForeignKey("roles.role_id"))
     date_join = db.Column(db.DateTime())
 
     @property
@@ -41,7 +42,7 @@ class Role(db.Model):
 
     __tablename__="roles"
 
-    role_id = db.Column(db.String(50), primary_key=True, unique=True)
+    role_id = db.Column(db.Integer(), primary_key=True, unique=True)
     name = db.Column(db.String(50), index=True)
     description = db.Column(db.String(50), index=True)
 

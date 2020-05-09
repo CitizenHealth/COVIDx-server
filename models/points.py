@@ -9,7 +9,7 @@ class Points(db.Model):
         autoincrement=True,
         unique=True,
     )
-    user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.user_id'))
     activity = db.Column(db.String(250))
     points = db.Column(db.Integer())
     datetime_submitted = db.Column(db.DateTime())

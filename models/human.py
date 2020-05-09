@@ -3,7 +3,7 @@ from app import db
 class Human(db.Model):
     __tablename__ = "human"
 
-    user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.user_id'))
     human_token = db.Column(db.String(250), primary_key=True, unique=True)
 
     @property

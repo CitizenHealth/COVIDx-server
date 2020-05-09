@@ -1,15 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+# from flask_login import LoginManager
 from flask_migrate import Migrate
 # from google.oauth2 import id_token
 import os
 from config import app_config
 import requests
 
-
 db = SQLAlchemy()
-login_manager = LoginManager()
+# login_manager = LoginManager()
 
 
 def create_app(config_name):
@@ -25,10 +24,8 @@ def create_app(config_name):
         app.config.from_pyfile("config.py")
 
     db.init_app(app)
-    login_manager.init_app(app)
 
     migrate = Migrate(app, db, compare_type=True)
-
 
     # @login_manager.request_loader
     # @app.before_request
@@ -60,12 +57,10 @@ def create_app(config_name):
 
 
     with app.app_context():
-        # from models import user
-        
         from .admin import admin as admin_blueprint
         from .user import user as user_blueprint
         from .location import location as location_blueprint
-        # from .survey_response import survey_response as survey_response_blueprint
+        from .survey_response import survey_response as survey_response_blueprint
         from .auth import auth as auth_blueprint
 
         app.register_blueprint(admin_blueprint, url_prefix="/admin")
@@ -73,6 +68,8 @@ def create_app(config_name):
         app.register_blueprint(location_blueprint)
         app.register_blueprint(survey_response_blueprint)
         app.register_blueprint(auth_blueprint)
+
+        check_staff_role()
 
         db.create_all()
 

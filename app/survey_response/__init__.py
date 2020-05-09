@@ -10,7 +10,7 @@ _SYMPTOMS = [
     "extreme_fatigue",
     "wet_cough",
     "dry_cough",
-    "abdominal_pain",
+    "abdominal_pain", 
     "diarrhea",
     "sore_throat",
     "chills",

@@ -8,6 +8,7 @@ from app import db
 from models.user import User, Role
 from models.covid_status import CovidStatus
 
+from firebase_admin import auth
 
 # @user.route('/create_user', methods=['POST'])
 # def create_user():
@@ -85,9 +86,10 @@ def login_user():
         if payload:
             return jsonify(message=f"user exists @ => {fb_id}"), 200
         else:
+            auth_data = get_user(fb_id)
             # get data from google thru fb_id
             # get this user's info here as dict
-            auth_payload = User(**auth_data)
+            auth.auth_payload = User(**auth_data)
             db.session.add(auth_payload)
             db.session.commit()
             return jsonify(message=f"user created @ => {fb_id}"), 200

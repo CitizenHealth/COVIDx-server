@@ -2,25 +2,25 @@ from sqlalchemy import CheckConstraint
 from app import db
 
 
-class Location(db.Model):
-    """
-    figure out where they were at any given time
-    """
-    __tablename__ = "location"
+# class Location(db.Model):
+#     """
+#     figure out where they were at any given time
+#     """
+#     __tablename__ = "location"
 
-    location_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
-    survey_id = db.Column(db.Integer(), db.ForeignKey('survey_metadata.survey_id'))
-    latitude = db.Column(db.Float())
-    longitude = db.Column(db.Float())
-    date = db.Column(db.DateTime())
-    zip_code = db.Column(db.String(25))
+#     location_id = db.Column(db.String(50), primary_key=True, unique=True, nullable=True)
+#     survey_id = db.Column(db.Integer(), db.ForeignKey('survey_metadata.survey_id'))
+#     latitude = db.Column(db.Float())
+#     longitude = db.Column(db.Float())
+#     date = db.Column(db.DateTime())
+#     zip_code = db.Column(db.String(25))
 
-    @property
-    def as_json(self):
-        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+#     @property
+#     def as_json(self):
+#         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
-    def __repr__(self):
-        return f"location_id => {self.location_id}"
+#     def __repr__(self):
+#         return f"location_id => {self.location_id}"
 
 
 # class StateResults(db.Model):

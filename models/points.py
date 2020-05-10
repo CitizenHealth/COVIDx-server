@@ -8,6 +8,7 @@ class Points(db.Model):
         primary_key=True,
         autoincrement=True,
         unique=True,
+        nullable=False
     )
     user_id = db.Column(db.Integer(), db.ForeignKey('users.user_id'))
     activity = db.Column(db.String(250))

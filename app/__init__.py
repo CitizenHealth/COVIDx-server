@@ -6,13 +6,17 @@ from flask_migrate import Migrate
 import os
 from config import app_config
 import requests
+# from firebase_admin import auth, credentials
+import firebase_admin
+from flask import request
 
 db = SQLAlchemy()
+firebase_admin.initialize_app()
 # login_manager = LoginManager()
 
 
 def create_app(config_name):
-    if os.getenv("FLASK_CONFIG") == "production":
+    if os.getenv("FLASK_CONFIG")=="production":
         app = Flask(__name__)
         app.config.update(
             SECRET_KEY=os.getenv("SECRET_KEY"),
@@ -26,20 +30,32 @@ def create_app(config_name):
     db.init_app(app)
 
     migrate = Migrate(app, db, compare_type=True)
+    
 
     # @login_manager.request_loader
-    # @app.before_request
-    # def firebase_auth(request):
-    #     authorization = request.headers.get("Authorization")
-        
-    #     try:
-    #         token = authorization.replace('Bearer: ', '', 1)
-    #         claims = id_token.verify_firebase_token(token, requests.Request())
-        
-    #     except:
-    #         raise ValueError("invalid firebase token bro")
+    @app.before_request
+    def firebase_auth():
+        from models.user import User
+        authorization = request.headers.get("Authorization")
+        if "Authorization" not in request.headers:
+            return 
 
-    #     user = await user
+        token = authorization.replace('Bearer: ', '', 1)
+        decoded = firebase_admin.auth.verify_id_token(token)
+        fb_id = decoded['uid']
+        # find this in the user model. if it exists, as is. if not, create account
+        user = User.query.filter_by(firebase_id=fb_id).first()
+        print(user)
+        print(f"user found @ => {fb_id}")
+        # create account
+        if not user:
+            # auth_data = firebase_admin.auth.get_user(fb_id)
+            # print(auth_data.__dict__)
+            payload = User(firebase_id=fb_id)
+            # payload = User(**auth_data)
+            db.session.add(payload)
+            db.session.commit()
+            print(f"user created @ => {fb_id}")
 
 
     @app.route("/")
@@ -69,7 +85,7 @@ def create_app(config_name):
         app.register_blueprint(survey_response_blueprint)
         app.register_blueprint(auth_blueprint)
 
-        check_staff_role()
+        # check_staff_role()
 
         db.create_all()
 

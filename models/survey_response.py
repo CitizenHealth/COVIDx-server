@@ -1,13 +1,6 @@
 from sqlalchemy_utils import create_view
 from app import db
-
-from .survey_metadata import SurveyMetadata
-from .location import Location
-from .medical_history import MedicalHistory
-from .sentiment import Sentiment
-from .symptom import Symptom
-from .temperature import Temperature
-from .test_status import TestStatus
+from sqlalchemy import CheckConstraint
 
 # having an error - sqlalchemy is trying to merge tables that haven't been created yet
 # class SurveyResponse(db.Model):
@@ -26,10 +19,7 @@ from .test_status import TestStatus
 
 
 
-# from app import db
-# from sqlalchemy import CheckConstraint
-
-
+# TODO: split this into a few tables
 class SurveyResponse(db.Model):
     __tablename__ = "survey_responses"
 
@@ -38,6 +28,7 @@ class SurveyResponse(db.Model):
         primary_key=True,
         autoincrement=True,
         unique=True,
+        nullable=False
     )
     user_id = db.Column(db.String(50), db.ForeignKey("users.user_id"))
     latitude = db.Column(db.Float())

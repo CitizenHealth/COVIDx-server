@@ -5,7 +5,7 @@ from . import user
 from flask import request, jsonify
 from app import db
 
-from models.user import User, Role
+from models.user import User
 from models.covid_status import CovidStatus
 
 from firebase_admin import auth
@@ -76,30 +76,31 @@ from firebase_admin import auth
 #     finally:
 #         db.session.close()
 
-@user.route('/login_user', methods=['POST']) # TODO: FILL IN THE FB AUTH STUFFS
-def login_user():
-    try:
-        request_body = request.get_json()
-        fb_id = request_body['firebase_id']
-        payload = User.query.filter_by(firebase_id=fb_id).first()
+# @user.route('/login_user', methods=['POST']) # TODO: FILL IN THE FB AUTH STUFFS
+# def login_user():
+#     try:
+#         request_body = request.get_json()
+#         # fb_id = request.headers.get('Authorization')
+#         fb_id = request_body['firebase_id']
+#         payload = User.query.filter_by(firebase_id=fb_id).first()
 
-        if payload:
-            return jsonify(message=f"user exists @ => {fb_id}"), 200
-        else:
-            auth_data = get_user(fb_id)
-            # get data from google thru fb_id
-            # get this user's info here as dict
-            auth.auth_payload = User(**auth_data)
-            db.session.add(auth_payload)
-            db.session.commit()
-            return jsonify(message=f"user created @ => {fb_id}"), 200
+#         if payload:
+#             return jsonify(message=f"user exists @ => {fb_id}"), 200
+#         else:
+#             auth_data = get_user(fb_id)
+#             # get data from google thru fb_id
+#             # get this user's info here as dict
+#             auth.auth_payload = User(**auth_data)
+#             db.session.add(auth_payload)
+#             db.session.commit()
+#             return jsonify(message=f"user created @ => {fb_id}"), 200
 
-    except Exception as e:
-        db.session.rollback()
-        return jsonify(message=f"error {str(e)}"), 404
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify(message=f"error {str(e)}"), 404
 
-    finally:
-        db.session.close()
+#     finally:
+#         db.session.close()
 
 
 @user.route('/update_user', methods=['PUT'])

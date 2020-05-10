@@ -24,32 +24,37 @@ class User(UserMixin, db.Model):
     sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
     date_birth = db.Column(db.DateTime())
     # role = db.Column(db.Boolean, default=False)
-    role_id = db.Column(db.Integer(), db.ForeignKey("roles.role_id"))
-    date_join = db.Column(db.DateTime())
+    # role_id = db.Column(db.Integer(), db.ForeignKey("roles.role_id"))
+    # date_join = db.Column(db.DateTime())
 
     @property
     def as_json(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
     def __repr__(self):
-        return f"welcome to covidx => {self.display_name}"
+        return f"welcome to covidx => {self.user_id}"
 
 
-class Role(db.Model):
-    """
-    role table...
-    """
+# class Role(db.Model):
+#     """
+#     role table...
+#     """
 
-    __tablename__="roles"
+#     __tablename__="roles"
 
-    role_id = db.Column(db.Integer(), primary_key=True, unique=True)
-    name = db.Column(db.String(50), index=True)
-    description = db.Column(db.String(50), index=True)
+#     role_id = db.Column(
+#         db.Integer(), 
+#         primary_key=True, 
+#         unique=True, 
+#         nullable=False,
+#     )
+#     name = db.Column(db.String(50), index=True)
+#     description = db.Column(db.String(50), index=True)
 
-    @property
-    def as_json(self):
-        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+#     @property
+#     def as_json(self):
+#         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
-    def __repr__(self):
-        return f"role id => {self.role_id}"
+#     def __repr__(self):
+#         return f"role id => {self.role_id}"
 

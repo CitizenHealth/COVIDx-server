@@ -6,8 +6,8 @@ from app import create_app
 
 # config_name = os.getenv("FLASK_CONFIG")
 app = create_app("development")
-whitelist = ['https://covidx.app', 'http://localhost:3000/', 'http://localhost:3001/']
-CORS(app, resources={r'/*': {'origins': whitelist}})
+# whitelist = ['https://covidx.app', 'http://localhost:3000/', 'http://localhost:3001/']
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 
 if __name__ == "__main__":

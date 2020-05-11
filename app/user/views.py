@@ -6,7 +6,7 @@ from flask import request, jsonify
 from app import db
 
 from models.user import User
-from models.covid_status import CovidStatus
+# from models.covid_status import CovidStatus
 
 from firebase_admin import auth
 

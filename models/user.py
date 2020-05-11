@@ -19,7 +19,7 @@ class User(UserMixin, db.Model):
         nullable=False,
         autoincrement=True,
     )
-    firebase_id = db.Column(db.String(50), unique=True, nullable=False)
+    firebase_id = db.Column(db.String(50), nullable=False)
     birth = db.Column(db.DateTime())
     sex = db.Column(db.String(2), CheckConstraint("sex in ('m', 'f')"))
     date_birth = db.Column(db.DateTime())

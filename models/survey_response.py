@@ -1,4 +1,3 @@
-from sqlalchemy_utils import create_view
 from app import db
 from sqlalchemy import CheckConstraint
 

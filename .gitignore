@@ -1,6 +1,7 @@
 __pycache__/
 
 firebase-debug.log
+.env
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

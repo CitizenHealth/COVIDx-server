@@ -78,12 +78,14 @@ def create_app(config_name):
         from .location import location as location_blueprint
         from .survey_response import survey_response as survey_response_blueprint
         from .auth import auth as auth_blueprint
+        from .survey_response import health_checkin as health_checkin_blueprint
 
         app.register_blueprint(admin_blueprint, url_prefix="/admin")
         app.register_blueprint(user_blueprint)
         app.register_blueprint(location_blueprint)
         app.register_blueprint(survey_response_blueprint)
         app.register_blueprint(auth_blueprint)
+        app.register_blueprint(health_checkin_blueprint, url_prefix="/health_checkin")
 
         # check_staff_role()
 

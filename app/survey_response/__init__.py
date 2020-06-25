@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 survey_response = Blueprint("survey_response", __name__)
-
+health_checkin = Blueprint("health_checkin", __name__)
 from . import views
 
 _SYMPTOMS = [

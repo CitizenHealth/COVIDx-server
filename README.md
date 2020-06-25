@@ -3,4 +3,4 @@ backend for COVIDx
 
 - to install dependencies, run ```conda install --yes --file requirements.txt```
 - run tests by running ```python tests.py```
-- run development server by running ```flask run```
+- run development server by running ```export FLASK_ENV="development" & flask run```

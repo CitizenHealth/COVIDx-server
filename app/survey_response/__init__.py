@@ -1,5 +1,5 @@
 from flask import Blueprint
-
+form_submission = Blueprint("form_submission", __name__)
 survey_response = Blueprint("survey_response", __name__)
 health_checkin = Blueprint("health_checkin", __name__)
 from . import views

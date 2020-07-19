@@ -4,13 +4,16 @@ from datetime import datetime
 import requests
 import firebase_admin
 from models.survey_response import SurveyResponse
-from models.health_checkin import HealthCheckin
+from models.survey_models.health_checkin import HealthCheckin
 from models.user import User
+from models.survey_models import form_response_models
 
 from . import survey_response
 from . import health_checkin
-@health_checkin.route("/response", methods=["POST"])
-def health_checkin_response():
+from . import form_submission
+
+@form_submission.route("/submit_form", methods=["POST"])
+def form_submission():
     try:
         authorization = request.headers.get("Authorization")
         token = authorization.replace('Bearer: ', '', 1)
@@ -19,13 +22,20 @@ def health_checkin_response():
         user_data = User.query.filter_by(firebase_id=fb_id).first().as_json
         user_id = user_data['user_id']
         request_body = request.get_json()
-        req_data = {k: '^_^'.join(v) if type(v) == type([])
-                else datetime.strptime(v, '%m/%d/%Y') if 'date' in k and v is not None
-                else v for k, v in request_body.items()}
+        req_data = {
+            k: '^_^'.join(v) if type(v) == list 
+            else datetime.strptime(v, '%m/%d/%Y') 
+            if 'date' in k and v is not None
+            else v for k, v in request_body.items()
+        }
         req_data['submitted_date'] = datetime.now()
         req_data['user_id'] = user_id
 
-        response = HealthCheckin(**req_data)
+        form_model = form_response_models[
+            req_data['form_name']
+        ]
+        del req_data['form_name']
+        response = form_model(**req_data)
         db.session.add(response)
         db.session.commit()
         return jsonify(message=f"survey responses saved @ => {fb_id}"), 200

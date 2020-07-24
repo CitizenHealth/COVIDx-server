@@ -15,26 +15,32 @@ from . import form_submission
 @form_submission.route("/submit_form", methods=["POST"])
 def form_submission():
     try:
+        ### Get user data
         authorization = request.headers.get("Authorization")
         token = authorization.replace('Bearer: ', '', 1)
         fb_id = firebase_admin.auth.verify_id_token(token)['uid']
 
         user_data = User.query.filter_by(firebase_id=fb_id).first().as_json
         user_id = user_data['user_id']
+
+        ### Choose form model
         request_body = request.get_json()
+        form_model = form_response_models[
+            request_body['form']
+        ]
+
+        ### Convert form results into a form_model object
+        form_results = request_body['responses']
         req_data = {
             k: '^_^'.join(v) if type(v) == list 
             else datetime.strptime(v, '%m/%d/%Y') 
             if 'date' in k and v is not None
-            else v for k, v in request_body.items()
+            else v for k, v in form_results.items()
         }
         req_data['submitted_date'] = datetime.now()
         req_data['user_id'] = user_id
 
-        form_model = form_response_models[
-            req_data['form_name']
-        ]
-        del req_data['form_name']
+        ### Log the response to the database
         response = form_model(**req_data)
         db.session.add(response)
         db.session.commit()

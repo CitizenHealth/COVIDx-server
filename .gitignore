@@ -10,3 +10,4 @@ firebase-debug.log
 
 # Jupyter Notebook
 _experiment/.ipynb_checkpoints/*
+.vscode/
